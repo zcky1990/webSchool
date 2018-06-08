@@ -94,15 +94,15 @@ public class DatabaseUtillity extends Util{
 		return jsonArray;
 	}
 	
-	public String runQuery(String query) {
-		String status = null;
+	public JSONObject runQuery(String query) throws JSONException {
+		JSONObject status = new JSONObject();;
 		statement = createConnection();
 		try {
 			statement.executeUpdate(query);
-			status = OK;
+			status.put("status", OK);
 		} catch (SQLException e) {
-			status = FAILED;
-			System.err.println(e.getMessage());
+			status.put("status", FAILED);
+			status.put("errorMessage", e.getMessage());
 		}
 		return status;
 	}

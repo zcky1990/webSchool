@@ -24,16 +24,17 @@ import com.springboot.utillity.UserUtil;
 @RestController
 public class MainController extends BaseController {
 	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> login(@RequestBody Login login,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		LoginUtil util = new LoginUtil();
 		JSONArray users = util.doLogin(login);
 		JSONObject response = new JSONObject();
 		if(users.length() > 0) {
-			response.put("status", STATUS_SUCCESS );
-			response.put("details", users);
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, users);
 		}else {
-			response.put("status", STATUS_FAILED );
+			response.put(STATUS, STATUS_FAILED );
 		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
@@ -41,14 +42,13 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> addUser(@RequestBody Users users,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		UserUtil util = new UserUtil();
-		String user = util.addUser(users);
+		JSONObject result = util.addUser(users);
 		JSONObject response = new JSONObject();
-		if(user.equals("200")) {
-			response.put("status", STATUS_SUCCESS );
-			response.put("code", user);
+		if(result.get(STATUS).equals(OK)) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, result);
 		}else {
-			response.put("status", STATUS_FAILED );
-			response.put("code", "500");
+			response.put(STATUS, STATUS_FAILED );
 		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
@@ -56,14 +56,13 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/removeuser", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> removeUser(@RequestBody Users users,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		UserUtil util = new UserUtil();
-		String user = util.removeUser(users);
+		JSONObject result = util.removeUser(users);
 		JSONObject response = new JSONObject();
-		if(user.equals("200")) {
-			response.put("status", STATUS_SUCCESS );
-			response.put("code", user);
+		if(result.get(STATUS).equals(OK)) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, result);
 		}else {
-			response.put("status", STATUS_FAILED );
-			response.put("code", "500");
+			response.put(STATUS, STATUS_FAILED );
 		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
@@ -71,13 +70,13 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/addsiswa", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> addSiswa(@RequestBody Siswa siswa,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		SiswaUtil util = new SiswaUtil();
-		String users = util.addSiswa(siswa);
+		JSONObject result = util.addSiswa(siswa);
 		JSONObject response = new JSONObject();
-		if(users.equals("200")) {
-			response.put("status", STATUS_SUCCESS );
-			response.put("details", users);
+		if(result.get(STATUS).equals(OK)) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, result);
 		}else {
-			response.put("status", STATUS_FAILED );
+			response.put(STATUS, STATUS_FAILED );
 		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
@@ -85,13 +84,13 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/updatesiswa", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> updateSiswa(@RequestBody Siswa siswa,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		SiswaUtil util = new SiswaUtil();
-		String users = util.updateSiswa(siswa);
+		JSONObject result = util.updateSiswa(siswa);
 		JSONObject response = new JSONObject();
-		if(users.equals("200")) {
-			response.put("status", STATUS_SUCCESS );
-			response.put("details", users);
+		if(result.get(STATUS).equals(OK)) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, result);
 		}else {
-			response.put("status", STATUS_FAILED );
+			response.put(STATUS, STATUS_FAILED );
 		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}

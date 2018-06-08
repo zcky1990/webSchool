@@ -1,0 +1,1 @@
+CREATE TABLE `Dewantara`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(20) NOT NULL , `password` VARCHAR(20) NOT NULL , `create_date` DATE NOT NULL , `create_by` INT NOT NULL , `level` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

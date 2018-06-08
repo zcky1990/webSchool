@@ -1,0 +1,1 @@
+CREATE TABLE `Dewantara`.`kelas` ( `id` INT NOT NULL AUTO_INCREMENT , `kelas_desc` VARCHAR(10) NOT NULL , `is_active` BINARY(1) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

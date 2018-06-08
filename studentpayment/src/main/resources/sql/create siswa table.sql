@@ -1,0 +1,1 @@
+CREATE TABLE `Dewantara`.`siswa` ( `id` INT NOT NULL AUTO_INCREMENT , `nisn` VARCHAR(10) NOT NULL , `firstname` VARCHAR(15) NOT NULL , `lastname` VARCHAR(15) NOT NULL , `tempat_lahir` VARCHAR(15) NOT NULL , `tanggal_lahir` DATE NOT NULL , `alamat` VARCHAR(200) NOT NULL , `jenis_kelamin` VARCHAR(1) NOT NULL , `is_active` BINARY(1) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

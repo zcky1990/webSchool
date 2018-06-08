@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.base.BaseController;
 import com.springboot.models.Login;
+import com.springboot.models.Siswa;
 import com.springboot.models.Users;
 import com.springboot.utillity.LoginUtil;
+import com.springboot.utillity.SiswaUtil;
 import com.springboot.utillity.UserUtil;
 
 @RestController
@@ -67,9 +68,32 @@ public class MainController extends BaseController {
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<String> setEmailTest(@RequestParam("email") String email, @RequestHeader MultiValueMap<String,String> headers){
-		String response="{ \"test\":1}";
-		return new ResponseEntity<String>(response, getResponseHeader(), HttpStatus.OK);
+	@RequestMapping(value = "/addsiswa", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> addSiswa(@RequestBody Siswa siswa,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		SiswaUtil util = new SiswaUtil();
+		String users = util.addSiswa(siswa);
+		JSONObject response = new JSONObject();
+		if(users.equals("200")) {
+			response.put("status", STATUS_SUCCESS );
+			response.put("details", users);
+		}else {
+			response.put("status", STATUS_FAILED );
+		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/updatesiswa", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> updateSiswa(@RequestBody Siswa siswa,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		SiswaUtil util = new SiswaUtil();
+		String users = util.updateSiswa(siswa);
+		JSONObject response = new JSONObject();
+		if(users.equals("200")) {
+			response.put("status", STATUS_SUCCESS );
+			response.put("details", users);
+		}else {
+			response.put("status", STATUS_FAILED );
+		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
 }

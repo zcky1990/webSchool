@@ -1,7 +1,5 @@
 package com.springboot.utillity;
 
-import org.json.JSONArray;
-
 import com.springboot.models.Users;
 import com.springboot.util.DatabaseUtillity;
 

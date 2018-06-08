@@ -1,3 +1,5 @@
+var defaultPath = '';
+
 function request (url, methodType, dataRequest, callbackFunction, errorHandler, _timeout) {
 	$.ajax({
 		type : methodType,

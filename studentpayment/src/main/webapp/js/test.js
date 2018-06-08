@@ -10,7 +10,7 @@ $(document).ready(function() {
     	var asd = {};
     	asd.username ="admin";
     	asd.password ="admin";
-    		request('/login',"POST",JSON.stringify(asd),function(response){
+    		request(defaultPath+'/login',"POST",JSON.stringify(asd),function(response){
     			test(response);
     		},function(errorResponse){
     			test(errorResponse);

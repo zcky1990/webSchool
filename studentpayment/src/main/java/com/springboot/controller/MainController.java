@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.base.BaseController;
 import com.springboot.models.Login;
+import com.springboot.models.Users;
 import com.springboot.utillity.LoginUtil;
+import com.springboot.utillity.UserUtil;
 
 @RestController
 public class MainController extends BaseController {
@@ -31,6 +33,36 @@ public class MainController extends BaseController {
 			response.put("details", users);
 		}else {
 			response.put("status", STATUS_FAILED );
+		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> addUser(@RequestBody Users users,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		UserUtil util = new UserUtil();
+		String user = util.addUser(users);
+		JSONObject response = new JSONObject();
+		if(user.equals("200")) {
+			response.put("status", STATUS_SUCCESS );
+			response.put("code", user);
+		}else {
+			response.put("status", STATUS_FAILED );
+			response.put("code", "500");
+		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/removeuser", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeUser(@RequestBody Users users,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		UserUtil util = new UserUtil();
+		String user = util.removeUser(users);
+		JSONObject response = new JSONObject();
+		if(user.equals("200")) {
+			response.put("status", STATUS_SUCCESS );
+			response.put("code", user);
+		}else {
+			response.put("status", STATUS_FAILED );
+			response.put("code", "500");
 		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}

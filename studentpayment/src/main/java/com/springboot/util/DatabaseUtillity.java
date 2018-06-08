@@ -17,6 +17,8 @@ public class DatabaseUtillity extends Util{
 	private String datbaseName = "";
 	private String userName ="";
 	private String passWord = "";
+	private String OK = "200";
+	private String FAILED = "500";
 	
 	public DatabaseUtillity() {
 		super();
@@ -92,25 +94,19 @@ public class DatabaseUtillity extends Util{
 		return jsonArray;
 	}
 	
-	public void insertDataIntoDB(String query) {
+	public String runQuery(String query) {
+		String status = null;
 		statement = createConnection();
 		try {
 			statement.executeUpdate(query);
+			status = OK;
 		} catch (SQLException e) {
+			status = FAILED;
 			System.err.println(e.getMessage());
 		}
+		return status;
 	}
-	
-	private void updateDBData(String query){
-		statement = createConnection();
-		try {
-			statement.executeUpdate(query);
-		}
-		catch (SQLException ex) {
-			System.err.println(ex.getMessage());
-		}
-	}
-	
+		
 	public void setConfig() {
 		String configString = requestFileResource();
 		try {

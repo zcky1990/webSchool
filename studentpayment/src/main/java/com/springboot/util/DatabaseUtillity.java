@@ -11,9 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DatabaseUtillity extends Util{
-	private static String DRIVER = "com.mysql.jdbc.Driver";
-	private static String STATUS_SUCCESS= "success";
-	private static String STATUS_FAILED= "failed";
 	private Connection connect = null;
 	private Statement statement = null;
 	String host ="";
@@ -22,6 +19,7 @@ public class DatabaseUtillity extends Util{
 	String passWord = "";
 	
 	public DatabaseUtillity() {
+		super();
 		setConfig();
 	}
 
@@ -32,11 +30,15 @@ public class DatabaseUtillity extends Util{
 	public Connection getConnection() {
 		Connection newConnection = null;
 		try {
-			Class.forName(DRIVER);
-			newConnection = DriverManager.getConnection(getDatabaseUrl());
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			newConnection = DriverManager.getConnection("jdbc:mysql://"+host+"/"+datbaseName+"?characterEncoding=UTF-8",userName,passWord );
 		} catch (ClassNotFoundException e ) {
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
 			System.err.println(e.getMessage());
 		}
 		return newConnection;

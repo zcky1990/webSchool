@@ -1,9 +1,9 @@
 {
 	"config": {
-			"databaseName": "DASHBOARD_DEV",
-			"userName": "DashboardDevUser",
-			"password": "Photon@123",
-			"ip": "172.17.10.83",
+			"databaseName": "Dewantara",
+			"userName": "dewantara",
+			"password": "dewantara",
+			"ip": "localhost",
 			"port": "1433"
 	}
 }

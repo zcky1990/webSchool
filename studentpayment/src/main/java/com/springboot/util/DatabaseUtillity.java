@@ -30,8 +30,8 @@ public class DatabaseUtillity extends Util{
 	public Connection getConnection() {
 		Connection newConnection = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			newConnection = DriverManager.getConnection("jdbc:mysql://"+host+"/"+datbaseName+"?characterEncoding=UTF-8",userName,passWord );
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			newConnection = DriverManager.getConnection(getDatabaseUrl());
 		} catch (ClassNotFoundException e ) {
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {

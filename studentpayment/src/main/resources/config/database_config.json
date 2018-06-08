@@ -3,7 +3,7 @@
 			"databaseName": "Dewantara",
 			"userName": "dewantara",
 			"password": "dewantara",
-			"ip": "localhost",
+			"ip": "192.168.64.2",
 			"port": "1433"
 	}
 }

@@ -13,10 +13,10 @@ import org.json.JSONObject;
 public class DatabaseUtillity extends Util{
 	private Connection connect = null;
 	private Statement statement = null;
-	String host ="";
-	String datbaseName = "";
-	String userName ="";
-	String passWord = "";
+	private String host ="";
+	private String datbaseName = "";
+	private String userName ="";
+	private String passWord = "";
 	
 	public DatabaseUtillity() {
 		super();

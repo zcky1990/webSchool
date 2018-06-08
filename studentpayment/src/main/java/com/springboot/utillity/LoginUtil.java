@@ -16,7 +16,7 @@ public class LoginUtil {
 		String username = login.getUsername();
 		String password = login.getPassword();
 		
-		String query = "select username from users where username='"+username+"' and password = '"+password+"'";
+		String query = "select username,level from users where username='"+username+"' and password = '"+password+"'";
 		try {
 			result = util.readDataDB(query);
 		} catch (SQLException e) {

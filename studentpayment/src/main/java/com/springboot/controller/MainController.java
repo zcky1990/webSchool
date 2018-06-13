@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -95,6 +96,20 @@ public class MainController extends BaseController {
 		if(result.get(STATUS).equals(OK)) {
 			response.put(STATUS, STATUS_SUCCESS );
 			response.put(DETAILS, result);
+		}else {
+			response.put(STATUS, STATUS_FAILED );
+		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSiswaList", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getSiswaList(@RequestParam("username") String username, @RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		SiswaUtil util = new SiswaUtil();
+		JSONArray result = util.getSiswaList();
+		JSONObject response = new JSONObject();
+		if(result.length()> 0 ) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put("ListSiswa", result);
 		}else {
 			response.put(STATUS, STATUS_FAILED );
 		}

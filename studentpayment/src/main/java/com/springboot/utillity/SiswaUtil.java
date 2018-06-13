@@ -1,5 +1,8 @@
 package com.springboot.utillity;
 
+import java.sql.SQLException;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.springboot.models.Siswa;
@@ -48,6 +51,25 @@ public class SiswaUtil {
 		} catch (JSONException e) {
 			result.put("status", "500");
 			result.put("errorMessage", e.getMessage());
+		}
+		return result;
+	}
+	
+	public JSONArray getSiswaList()  {
+		JSONArray result = new JSONArray();
+		String query= "SELECT s.nisn, CONCAT(s.firstname, ' ', s.lastname) AS nama,"
+				+ "CONCAT(kl.description, ' ', km.description) as nama_kelas,"
+				+ "kl.description as kelas,"
+				+ "k.kelas_id "
+				+ "FROM siswa s "
+				+ "INNER JOIN kelas_mapping km ON s.nisn = km.nisn "
+				+ "INNER JOIN kelas_list kl ON kl.id = km.kelas_id "
+				+ "INNER JOIN kelas k on k.nisn = s.nisn and k.kelas_id=kl.id "
+				+ "WHERE s.is_active = true and k.is_active = 1";
+		try {
+			result = util.readDataDB(query);
+		} catch (SQLException e) {
+			
 		}
 		return result;
 	}

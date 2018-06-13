@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 13, 2018 at 10:18 AM
+-- Generation Time: Jun 13, 2018 at 11:37 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -33,7 +33,11 @@ CREATE TABLE `gedung` (
   `gedung_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -62,7 +66,11 @@ CREATE TABLE `kartu_pelajar` (
   `kartu_pelajar_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -91,8 +99,20 @@ CREATE TABLE `kegiatan` (
   `kegiatan_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kegiatan`
+--
+
+INSERT INTO `kegiatan` (`nisn`, `kegiatan_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 10, 2017, 50000, NULL, NULL, NULL, NULL),
+(100000, 2, 4, 2018, 50000, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -103,11 +123,19 @@ CREATE TABLE `kegiatan` (
 CREATE TABLE `kegiatan_list` (
   `id` int(11) NOT NULL,
   `kelas` int(11) NOT NULL,
-  `description` int(11) NOT NULL,
+  `description` varchar(100) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
   `besaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kegiatan_list`
+--
+
+INSERT INTO `kegiatan_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
+(1, 1, 'Angsuran-1', 1, 2017, 50000),
+(2, 1, 'Angsuran-2', 4, 2018, 50000);
 
 -- --------------------------------------------------------
 
@@ -144,7 +172,9 @@ CREATE TABLE `kelas_list` (
 --
 
 INSERT INTO `kelas_list` (`id`, `description`) VALUES
-(1, 'KELAS 1');
+(1, 'KELAS I'),
+(2, 'KELAS II'),
+(3, 'KELAS III');
 
 -- --------------------------------------------------------
 
@@ -176,8 +206,19 @@ CREATE TABLE `ldks` (
   `ldks_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ldks`
+--
+
+INSERT INTO `ldks` (`nisn`, `ldks_list_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 10, 2017, 150000, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -194,6 +235,13 @@ CREATE TABLE `ldks_list` (
   `besaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `ldks_list`
+--
+
+INSERT INTO `ldks_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
+(1, 1, 'Angsuran-1', 10, 2017, 150000);
+
 -- --------------------------------------------------------
 
 --
@@ -205,8 +253,20 @@ CREATE TABLE `lks` (
   `lks_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lks`
+--
+
+INSERT INTO `lks` (`nisn`, `lks_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 10, 2017, 110000, NULL, NULL, NULL, NULL),
+(100000, 2, 10, 2017, 150000, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -215,6 +275,47 @@ CREATE TABLE `lks` (
 --
 
 CREATE TABLE `lks_list` (
+  `id` int(11) NOT NULL,
+  `kelas` int(11) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `bulan` int(11) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `besaran` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lks_list`
+--
+
+INSERT INTO `lks_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
+(1, 1, 'LKS 1/17-18', 10, 2017, 110000),
+(2, 1, 'LKS 2/17-18', 10, 2017, 150000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lks_produktif`
+--
+
+CREATE TABLE `lks_produktif` (
+  `nisn` int(11) NOT NULL,
+  `lks_produktif_id` int(11) NOT NULL,
+  `bulan` int(11) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lks_produktif_list`
+--
+
+CREATE TABLE `lks_produktif_list` (
   `id` int(11) NOT NULL,
   `kelas` int(11) NOT NULL,
   `description` int(11) NOT NULL,
@@ -234,7 +335,11 @@ CREATE TABLE `mpls` (
   `mpls_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -263,8 +368,19 @@ CREATE TABLE `pesantren_kilat` (
   `pesantren_kilat_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pesantren_kilat`
+--
+
+INSERT INTO `pesantren_kilat` (`nisn`, `pesantren_kilat_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 10, 2017, 50000, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -281,6 +397,13 @@ CREATE TABLE `pesantren_kilat_list` (
   `besaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `pesantren_kilat_list`
+--
+
+INSERT INTO `pesantren_kilat_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
+(1, 1, 'Angsuran-1', 10, 2017, 50000);
+
 -- --------------------------------------------------------
 
 --
@@ -292,8 +415,19 @@ CREATE TABLE `pkl` (
   `pkl_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(11) NOT NULL
+  `bayar` bit(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pkl`
+--
+
+INSERT INTO `pkl` (`nisn`, `pkl_list_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 4, 2018, b'00000000000', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -310,6 +444,13 @@ CREATE TABLE `pkl_list` (
   `besaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `pkl_list`
+--
+
+INSERT INTO `pkl_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
+(1, 1, 'Praktek-I', 4, 2018, 200000);
+
 -- --------------------------------------------------------
 
 --
@@ -321,8 +462,20 @@ CREATE TABLE `praktek` (
   `praktek_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(11) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `praktek`
+--
+
+INSERT INTO `praktek` (`nisn`, `praktek_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 1, 2018, 150000, 0, '0000-00-00', 0, '0000-00-00'),
+(100000, 2, 1, 2018, 20000, 0, '0000-00-00', 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -344,7 +497,8 @@ CREATE TABLE `praktek_list` (
 --
 
 INSERT INTO `praktek_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
-(0, 1, 'paktek semester ganjil', 1, 2018, 200000);
+(1, 1, 'praktek 1', 1, 2018, 150000),
+(2, 1, 'praktek 2', 1, 2018, 150000);
 
 -- --------------------------------------------------------
 
@@ -357,7 +511,11 @@ CREATE TABLE `qurban` (
   `qurban_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(11) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -386,7 +544,11 @@ CREATE TABLE `seragam` (
   `seragam_list_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(11) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -439,18 +601,22 @@ CREATE TABLE `spp` (
   `spp_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `spp`
 --
 
-INSERT INTO `spp` (`nisn`, `spp_id`, `bulan`, `tahun`, `bayar`) VALUES
-(100000, 1, 10, 2017, b'1'),
-(100000, 2, 11, 2017, b'1'),
-(100000, 3, 12, 2017, b'1'),
-(100000, 4, 1, 2018, b'1');
+INSERT INTO `spp` (`nisn`, `spp_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 10, 2017, 110000, 0, NULL, NULL, NULL),
+(100000, 2, 11, 2017, 110000, 0, NULL, NULL, NULL),
+(100000, 3, 12, 2017, 110000, 0, NULL, NULL, NULL),
+(100000, 4, 1, 2018, 110000, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -502,7 +668,8 @@ CREATE TABLE `tahun_ajaran` (
 --
 
 INSERT INTO `tahun_ajaran` (`id`, `description`, `start_month`, `start_year`, `end_month`, `end_year`) VALUES
-(1, 'Semester 1 2017/2018', 10, 2017, 6, 2018);
+(1, 'Semester Ganjil 2017/2018', 10, 2017, 2, 2018),
+(2, 'Semester Genap 2017/2018', 2, 2018, 9, 2018);
 
 -- --------------------------------------------------------
 
@@ -515,8 +682,25 @@ CREATE TABLE `ujian` (
   `ujian_id` int(11) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
-  `bayar` bit(1) NOT NULL
+  `bayar` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ujian`
+--
+
+INSERT INTO `ujian` (`nisn`, `ujian_id`, `bulan`, `tahun`, `bayar`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(100000, 1, 10, 2017, 70000, NULL, NULL, NULL, NULL),
+(100000, 2, 10, 2017, 85000, NULL, NULL, NULL, NULL),
+(100000, 3, 10, 2017, 50000, NULL, NULL, NULL, NULL),
+(100000, 4, 10, 2017, 25000, NULL, NULL, NULL, NULL),
+(100000, 5, 4, 2018, 70000, NULL, NULL, NULL, NULL),
+(100000, 6, 4, 2018, 85000, NULL, NULL, NULL, NULL),
+(100000, 7, 4, 2018, 25000, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -527,11 +711,24 @@ CREATE TABLE `ujian` (
 CREATE TABLE `ujian_list` (
   `id` int(11) NOT NULL,
   `kelas` int(11) NOT NULL,
-  `description` int(11) NOT NULL,
+  `description` varchar(100) NOT NULL,
   `bulan` int(11) NOT NULL,
   `tahun` int(11) NOT NULL,
   `besaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ujian_list`
+--
+
+INSERT INTO `ujian_list` (`id`, `kelas`, `description`, `bulan`, `tahun`, `besaran`) VALUES
+(1, 1, 'UTS GANJIL 17/18', 10, 2017, 70000),
+(2, 1, 'UAS GANJIL 17/18', 10, 2017, 85000),
+(3, 1, 'RAPOT K-13', 10, 2017, 50000),
+(4, 1, 'PENGAMBILAN RAPOT', 10, 2017, 25000),
+(5, 1, 'UTS GENAP 17/18', 4, 2018, 70000),
+(6, 1, 'UAS GENAP 17/18', 4, 2018, 85000),
+(7, 1, 'PENGAMBILAN RAPOT', 4, 2018, 25000);
 
 -- --------------------------------------------------------
 
@@ -560,22 +757,46 @@ INSERT INTO `users` (`id`, `username`, `password`, `create_date`, `create_by`, `
 --
 
 --
+-- Indexes for table `gedung`
+--
+ALTER TABLE `gedung`
+  ADD KEY `nisn` (`nisn`,`gedung_list_id`),
+  ADD KEY `gedung_list_id` (`gedung_list_id`);
+
+--
 -- Indexes for table `gedung_list`
 --
 ALTER TABLE `gedung_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `kartu_pelajar`
+--
+ALTER TABLE `kartu_pelajar`
+  ADD KEY `nisn` (`nisn`,`kartu_pelajar_list_id`),
+  ADD KEY `kartu_pelajar_list_id` (`kartu_pelajar_list_id`);
 
 --
 -- Indexes for table `kartu_pelajar_list`
 --
 ALTER TABLE `kartu_pelajar_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `kegiatan`
+--
+ALTER TABLE `kegiatan`
+  ADD KEY `nisn` (`nisn`,`kegiatan_id`),
+  ADD KEY `kegiatan_id` (`kegiatan_id`);
 
 --
 -- Indexes for table `kegiatan_list`
 --
 ALTER TABLE `kegiatan_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
 
 --
 -- Indexes for table `kelas`
@@ -599,46 +820,130 @@ ALTER TABLE `kelas_mapping`
   ADD KEY `kelas_id` (`kelas_id`);
 
 --
+-- Indexes for table `ldks`
+--
+ALTER TABLE `ldks`
+  ADD KEY `nisn` (`nisn`,`ldks_list_id`),
+  ADD KEY `ldks_list_id` (`ldks_list_id`);
+
+--
 -- Indexes for table `ldks_list`
 --
 ALTER TABLE `ldks_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `lks`
+--
+ALTER TABLE `lks`
+  ADD KEY `nisn` (`nisn`,`lks_id`),
+  ADD KEY `lks_id` (`lks_id`);
 
 --
 -- Indexes for table `lks_list`
 --
 ALTER TABLE `lks_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `lks_produktif`
+--
+ALTER TABLE `lks_produktif`
+  ADD KEY `nisn` (`nisn`,`lks_produktif_id`),
+  ADD KEY `lks_produktif_id` (`lks_produktif_id`);
+
+--
+-- Indexes for table `lks_produktif_list`
+--
+ALTER TABLE `lks_produktif_list`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `mpls`
+--
+ALTER TABLE `mpls`
+  ADD KEY `nisn` (`nisn`,`mpls_list_id`),
+  ADD KEY `mpls_list_id` (`mpls_list_id`);
 
 --
 -- Indexes for table `mpls_list`
 --
 ALTER TABLE `mpls_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `pesantren_kilat`
+--
+ALTER TABLE `pesantren_kilat`
+  ADD KEY `nisn` (`nisn`,`pesantren_kilat_id`),
+  ADD KEY `pesantren_kilat_id` (`pesantren_kilat_id`);
 
 --
 -- Indexes for table `pesantren_kilat_list`
 --
 ALTER TABLE `pesantren_kilat_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `pkl`
+--
+ALTER TABLE `pkl`
+  ADD KEY `nisn` (`nisn`,`pkl_list_id`),
+  ADD KEY `pkl_list_id` (`pkl_list_id`);
 
 --
 -- Indexes for table `pkl_list`
 --
 ALTER TABLE `pkl_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `praktek`
+--
+ALTER TABLE `praktek`
+  ADD KEY `nisn` (`nisn`,`praktek_id`),
+  ADD KEY `praktek_id` (`praktek_id`);
+
+--
+-- Indexes for table `praktek_list`
+--
+ALTER TABLE `praktek_list`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `qurban`
+--
+ALTER TABLE `qurban`
+  ADD KEY `nisn` (`nisn`,`qurban_list_id`),
+  ADD KEY `qurban_list_id` (`qurban_list_id`);
 
 --
 -- Indexes for table `qurban_list`
 --
 ALTER TABLE `qurban_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
+
+--
+-- Indexes for table `seragam`
+--
+ALTER TABLE `seragam`
+  ADD KEY `nisn` (`nisn`,`seragam_list_id`),
+  ADD KEY `seragam_list_id` (`seragam_list_id`);
 
 --
 -- Indexes for table `seragam_list`
 --
 ALTER TABLE `seragam_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
 
 --
 -- Indexes for table `siswa`
@@ -667,10 +972,18 @@ ALTER TABLE `tahun_ajaran`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ujian`
+--
+ALTER TABLE `ujian`
+  ADD KEY `nisn` (`nisn`,`ujian_id`),
+  ADD KEY `ujian_id` (`ujian_id`);
+
+--
 -- Indexes for table `ujian_list`
 --
 ALTER TABLE `ujian_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelas` (`kelas`);
 
 --
 -- Indexes for table `users`
@@ -698,24 +1011,30 @@ ALTER TABLE `kartu_pelajar_list`
 -- AUTO_INCREMENT for table `kegiatan_list`
 --
 ALTER TABLE `kegiatan_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `kelas_list`
 --
 ALTER TABLE `kelas_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ldks_list`
 --
 ALTER TABLE `ldks_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `lks_list`
 --
 ALTER TABLE `lks_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `lks_produktif_list`
+--
+ALTER TABLE `lks_produktif_list`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -728,13 +1047,19 @@ ALTER TABLE `mpls_list`
 -- AUTO_INCREMENT for table `pesantren_kilat_list`
 --
 ALTER TABLE `pesantren_kilat_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pkl_list`
 --
 ALTER TABLE `pkl_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `praktek_list`
+--
+ALTER TABLE `praktek_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `qurban_list`
@@ -758,13 +1083,13 @@ ALTER TABLE `spp_list`
 -- AUTO_INCREMENT for table `tahun_ajaran`
 --
 ALTER TABLE `tahun_ajaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ujian_list`
 --
 ALTER TABLE `ujian_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -775,6 +1100,45 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `gedung`
+--
+ALTER TABLE `gedung`
+  ADD CONSTRAINT `gedung_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `gedung_ibfk_2` FOREIGN KEY (`gedung_list_id`) REFERENCES `gedung_list` (`id`);
+
+--
+-- Constraints for table `gedung_list`
+--
+ALTER TABLE `gedung_list`
+  ADD CONSTRAINT `gedung_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `kartu_pelajar`
+--
+ALTER TABLE `kartu_pelajar`
+  ADD CONSTRAINT `kartu_pelajar_ibfk_1` FOREIGN KEY (`kartu_pelajar_list_id`) REFERENCES `kartu_pelajar_list` (`id`),
+  ADD CONSTRAINT `kartu_pelajar_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
+
+--
+-- Constraints for table `kartu_pelajar_list`
+--
+ALTER TABLE `kartu_pelajar_list`
+  ADD CONSTRAINT `kartu_pelajar_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `kegiatan`
+--
+ALTER TABLE `kegiatan`
+  ADD CONSTRAINT `kegiatan_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `kegiatan_ibfk_2` FOREIGN KEY (`kegiatan_id`) REFERENCES `kegiatan_list` (`id`);
+
+--
+-- Constraints for table `kegiatan_list`
+--
+ALTER TABLE `kegiatan_list`
+  ADD CONSTRAINT `kegiatan_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
 
 --
 -- Constraints for table `kelas`
@@ -791,6 +1155,123 @@ ALTER TABLE `kelas_mapping`
   ADD CONSTRAINT `kelas_mapping_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
 
 --
+-- Constraints for table `ldks`
+--
+ALTER TABLE `ldks`
+  ADD CONSTRAINT `ldks_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `ldks_ibfk_2` FOREIGN KEY (`ldks_list_id`) REFERENCES `ldks_list` (`id`);
+
+--
+-- Constraints for table `ldks_list`
+--
+ALTER TABLE `ldks_list`
+  ADD CONSTRAINT `ldks_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `lks`
+--
+ALTER TABLE `lks`
+  ADD CONSTRAINT `lks_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `lks_ibfk_2` FOREIGN KEY (`lks_id`) REFERENCES `lks_list` (`id`);
+
+--
+-- Constraints for table `lks_list`
+--
+ALTER TABLE `lks_list`
+  ADD CONSTRAINT `lks_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `lks_produktif`
+--
+ALTER TABLE `lks_produktif`
+  ADD CONSTRAINT `lks_produktif_ibfk_1` FOREIGN KEY (`lks_produktif_id`) REFERENCES `lks_produktif_list` (`id`),
+  ADD CONSTRAINT `lks_produktif_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
+
+--
+-- Constraints for table `lks_produktif_list`
+--
+ALTER TABLE `lks_produktif_list`
+  ADD CONSTRAINT `lks_produktif_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `mpls`
+--
+ALTER TABLE `mpls`
+  ADD CONSTRAINT `mpls_ibfk_1` FOREIGN KEY (`mpls_list_id`) REFERENCES `mpls_list` (`id`),
+  ADD CONSTRAINT `mpls_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
+
+--
+-- Constraints for table `mpls_list`
+--
+ALTER TABLE `mpls_list`
+  ADD CONSTRAINT `mpls_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `pesantren_kilat`
+--
+ALTER TABLE `pesantren_kilat`
+  ADD CONSTRAINT `pesantren_kilat_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `pesantren_kilat_ibfk_2` FOREIGN KEY (`pesantren_kilat_id`) REFERENCES `pesantren_kilat_list` (`id`);
+
+--
+-- Constraints for table `pesantren_kilat_list`
+--
+ALTER TABLE `pesantren_kilat_list`
+  ADD CONSTRAINT `pesantren_kilat_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `pkl`
+--
+ALTER TABLE `pkl`
+  ADD CONSTRAINT `pkl_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `pkl_ibfk_2` FOREIGN KEY (`pkl_list_id`) REFERENCES `pkl_list` (`id`);
+
+--
+-- Constraints for table `pkl_list`
+--
+ALTER TABLE `pkl_list`
+  ADD CONSTRAINT `pkl_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `praktek`
+--
+ALTER TABLE `praktek`
+  ADD CONSTRAINT `praktek_ibfk_1` FOREIGN KEY (`praktek_id`) REFERENCES `praktek_list` (`id`),
+  ADD CONSTRAINT `praktek_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
+
+--
+-- Constraints for table `praktek_list`
+--
+ALTER TABLE `praktek_list`
+  ADD CONSTRAINT `praktek_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `qurban`
+--
+ALTER TABLE `qurban`
+  ADD CONSTRAINT `qurban_ibfk_1` FOREIGN KEY (`qurban_list_id`) REFERENCES `qurban_list` (`id`),
+  ADD CONSTRAINT `qurban_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
+
+--
+-- Constraints for table `qurban_list`
+--
+ALTER TABLE `qurban_list`
+  ADD CONSTRAINT `qurban_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `seragam`
+--
+ALTER TABLE `seragam`
+  ADD CONSTRAINT `seragam_ibfk_1` FOREIGN KEY (`seragam_list_id`) REFERENCES `seragam_list` (`id`),
+  ADD CONSTRAINT `seragam_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`);
+
+--
+-- Constraints for table `seragam_list`
+--
+ALTER TABLE `seragam_list`
+  ADD CONSTRAINT `seragam_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
 -- Constraints for table `spp`
 --
 ALTER TABLE `spp`
@@ -802,6 +1283,19 @@ ALTER TABLE `spp`
 --
 ALTER TABLE `spp_list`
   ADD CONSTRAINT `spp_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
+
+--
+-- Constraints for table `ujian`
+--
+ALTER TABLE `ujian`
+  ADD CONSTRAINT `ujian_ibfk_1` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
+  ADD CONSTRAINT `ujian_ibfk_2` FOREIGN KEY (`ujian_id`) REFERENCES `ujian_list` (`id`);
+
+--
+-- Constraints for table `ujian_list`
+--
+ALTER TABLE `ujian_list`
+  ADD CONSTRAINT `ujian_list_ibfk_1` FOREIGN KEY (`kelas`) REFERENCES `kelas_list` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

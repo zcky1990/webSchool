@@ -16,7 +16,6 @@ $(document).ready(function() {
 	
 	loginPage.onSuccessSubmit.add(navController.render,navController);
 	navController.onSuccessSignOut.add(loginPage.render, loginPage);
-	
 	if(cookiesAndSpinner.checkCookie() == false){
 		loginPage.render();
 	}else{

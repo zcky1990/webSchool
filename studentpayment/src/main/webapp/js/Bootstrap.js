@@ -8,17 +8,18 @@ $(document).ready(function() {
 		"requestAPI":ajaxApi
 	})
 	
-	var navController = new ContentController({
+	var contentController = new ContentController({
 		"defaultContainer":"main-container",
 		"spinnerDialog":cookiesAndSpinner,
 		"requestAPI":ajaxApi,
 	});
 	
-	loginPage.onSuccessSubmit.add(navController.render,navController);
-	navController.onSuccessSignOut.add(loginPage.render, loginPage);
+	loginPage.onSuccessSubmit.add(contentController.render,contentController);
+	contentController.onSuccessSignOut.add(loginPage.render, loginPage);
 	if(cookiesAndSpinner.checkCookie() == false){
 		loginPage.render();
 	}else{
-		navController.render();		
+		contentController.setAccessLevel(cookiesAndSpinner.getAccessLevel());
+		contentController.render();		
 	}	
 } );

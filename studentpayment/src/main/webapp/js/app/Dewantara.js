@@ -12,16 +12,11 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		this.spinnerController = config.spinnerController;
 		this.cookiesController = config.cookiesController;
 		this.requestAPI = config.requestAPI;
-		
 	},
 	
 	bindUI : function (){
-		
-		 
-	},
-	
-	postRender: function(){
-		 $('#list-siswa').DataTable({
+		var self= this;
+		var table =  $('#list-siswa').DataTable({
 			 "columnDefs": [
 		            {
 		                "targets": [ 3 ],
@@ -30,6 +25,22 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		            }
 		        ]
 		 });
+		
+		$('.details-btn').on('click',function(){
+			 var tr = $(this).closest('tr');
+			 var row = table.row( tr );
+			 var nisn = row.data()[0];
+			 var kelasId = row.data()[3];
+			 var model = {};
+			 model.nisn = nisn;
+			 model.kelasId = kelasId;
+			 self.getPaymentDetails(model);
+		});
+		 
+	},
+	
+	getPaymentDetails: function (model){
+		console.log(model);
 	},
 	
 	showPage : function(){

@@ -1,0 +1,39 @@
+<div class="home-page">
+<div class="title-container">
+	<div class="title">Daftar Siswa</div>
+</div>
+<div class="main-content">
+	<div class="table-container">
+	<table id="list-siswa" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>NISN</th>
+                <th>Nama</th>
+                <th>Kelas</th>
+                <th>kelas_id</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+		 {{#each ListSiswa}}
+		 <tr>
+                <td>{{nisn}}</td>
+                <td>{{nama}}</td>
+                <td>{{nama_kelas}}</td>
+                <td>{{kelas_id}}</td>
+                <td><button id="btn-{{nisn}}-{{kelas_id}}" type="button" class="btn btn-link details-btn">Details</button></td>
+            </tr>
+		{{/each}}
+            
+            
+        </tbody>
+    
+    </table>
+	
+	
+	
+	
+	
+	</div>
+</div>
+</div>

@@ -27,22 +27,22 @@ public class MainController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> login(@RequestBody Login login,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
-		LoginUtil util = new LoginUtil();
-		//JSONArray users = util.doLogin(login);
+		LoginUtil loginUtil = new LoginUtil();
 		JSONObject response = new JSONObject();
-		/*if(users.length() > 0) {
+		JSONArray users = loginUtil.doLogin(login);
+		if(users.length() > 0) {
 			response.put(STATUS, STATUS_SUCCESS );
 			response.put(DETAILS, users);
 		}else {
 			response.put(STATUS, STATUS_FAILED );
-		}*/
-		JSONArray users = new JSONArray();
+		}
+		/*JSONArray users = new JSONArray();
 		JSONObject asd = new JSONObject();
 		asd.put("username","admin");
 		asd.put("level","1");
 		users.put(asd);
 		response.put(STATUS, STATUS_SUCCESS );
-		response.put(DETAILS, users);
+		response.put(DETAILS, users);*/
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	
@@ -109,7 +109,7 @@ public class MainController extends BaseController {
 		JSONObject response = new JSONObject();
 		if(result.length()> 0 ) {
 			response.put(STATUS, STATUS_SUCCESS );
-			response.put("ListSiswa", result);
+			response.put(LIST_SISWA, result);
 		}else {
 			response.put(STATUS, STATUS_FAILED );
 		}

@@ -1,0 +1,7 @@
+<div class="dialog">
+	<div class="dialog-spinner spiner-container">
+		<div class="spinner-background">
+		</div>
+	<div class="spinner">
+	</div>
+</div>

@@ -350,11 +350,70 @@ input.input {
     font-size: 11px;
     font-family: OpenSans-Regular;
 }
+.top-header{
+	background :#373737;
+}
 
+.sign-out-btn {
+	color : white !important;
+}
+.sign-out-btn:hover{
+	color : red !important;
+}
 .show{
 	display:block;
 }
 
 .hide{
 	display:none !important;
+}
+
+.full-width {
+    height: 100%;
+}
+
+.left-nav {
+    background: #333;
+}
+@media (min-width: 1281px) {
+
+ .left-nav {
+    background: #333;
+    position: fixed;
+}
+.right-nav {
+    position: fixed;
+    right: 0;
+}
+  
+}
+.tab-active {
+	border-left: 6px solid #f57d1f;
+}
+/*--tab left ---*/
+.left-nav > ul > li{
+	border-bottom: 1px solid white;
+}
+.left-nav > ul > li > a {
+	color : white;
+	 font-size: 20px;
+}
+
+.left-nav > ul > li > a : hover {
+	color : red;
+	 font-size: 20px;
+}
+.title-container{
+	margin-top :5%;
+}
+.title {
+	display: inline-block;
+	width: 95%;
+	border-bottom: 4px solid #f57d1f;
+	font-size: 20px;
+	font-weight: bold;
+}
+.main-content{
+	margin-top:2%;
+	width: 95%;
 }

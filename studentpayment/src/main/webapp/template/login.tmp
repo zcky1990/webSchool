@@ -1,0 +1,23 @@
+<div class="container-login">
+<div class="wrap-login p-l-55 p-r-55 p-t-65 p-b-50">
+<div class="login-form validate-form">
+<span class="login-form-title p-b-33"> Login </span>
+<div class="wrap-input validate-input" data-validate="Username is required">
+<input id="input-login-username" class="input input-login " type="text" name="username" placeholder="Username"> <span class=" focus-input-1"></span>
+	<span class="focus-input-2"></span>
+	</div>
+	<div class="wrap-input rs1 validate-input" data-validate="Password is required">
+	<input id="input-login-password" class="input input-login "  type="password" name="password" placeholder="Password"> <span class="focus-input-1"></span>
+	<span class="focus-input-2"></span>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 error-message hide">	text message</div>
+	</div>
+	</div>
+	<div class="container-login-form-btn m-t-20">
+		<button class="login-form-btn login-btn-submit">Sign in</button>
+	</div>
+</div>
+</div>
+</div>

@@ -37,5 +37,30 @@ public class Util {
 		}
 		return textStr;
 	}
+	
+	public String requestFileResource(String path) {
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream(path);
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+		String line;
+		String textStr = "";
+		try {
+			while ((line = br.readLine()) != null) {
+				textStr = textStr + line;
+			}
+
+			br.close();
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+
+		try {
+			is.close();
+			br.close();
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+		return textStr;
+	}
 
 }

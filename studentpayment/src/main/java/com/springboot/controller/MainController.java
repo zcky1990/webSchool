@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.base.BaseController;
+import com.springboot.models.Details;
 import com.springboot.models.Login;
 import com.springboot.models.Siswa;
 import com.springboot.models.Users;
 import com.springboot.utillity.LoginUtil;
+import com.springboot.utillity.PaymentDetailUtility;
 import com.springboot.utillity.SiswaUtil;
 import com.springboot.utillity.UserUtil;
 
@@ -113,6 +115,14 @@ public class MainController extends BaseController {
 		}else {
 			response.put(STATUS, STATUS_FAILED );
 		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getAngsuran", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> getAngsuran(@RequestBody Details detal,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		JSONObject response = new JSONObject();
+		PaymentDetailUtility util = new PaymentDetailUtility();
+		response = util.getDetails(detal);
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	

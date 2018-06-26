@@ -10,6 +10,17 @@ import com.springboot.util.DatabaseUtillity;
 
 public class SiswaUtil {
 	DatabaseUtillity util = new DatabaseUtillity();
+	
+	public JSONArray getConfig() {
+		JSONArray result = new JSONArray();
+		String query ="SELECT description ,CONCAT(start_year, lpad(start_month, 2, '0')) As start_semester,CONCAT(end_year, lpad(end_month, 2, '0')) As end_semester FROM tahun_ajaran";
+		try {
+			result = util.readDataDB(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	public JSONObject addSiswa(Siswa siswa) throws JSONException {
 		JSONObject result = new JSONObject();

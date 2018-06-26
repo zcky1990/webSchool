@@ -1,6 +1,7 @@
-SET @nisn = '%s';
-SET @startSemester = %d;
-SET @endSemester = %d;
+SET @nisn = '100000';
+SET @startSemester = 201701;
+SET @endSemester = 201803;
+SET @kelas = 1;
 
 select * FROM 
 		(select (total_angsuran-total_bayar) as spp  from (select 
@@ -8,7 +9,7 @@ select * FROM
 			    WHEN total_angsuran is null THEN 0
 			    ELSE total_angsuran
 			END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-			from spp_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+			from spp_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 			JOIN                                          
 			(select * from(select (
 			    CASE
@@ -23,7 +24,7 @@ select * FROM
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from mpls_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from mpls_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas )totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -53,7 +54,7 @@ select * FROM
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from praktek_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from praktek_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -68,7 +69,7 @@ select * FROM
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from lks_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from lks_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -83,7 +84,7 @@ select * FROM
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from lks_produktif_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from lks_produktif_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -98,7 +99,7 @@ select * FROM
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from kegiatan_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from kegiatan_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -113,7 +114,7 @@ select * FROM
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from kartu_pelajar_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from kartu_pelajar_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -128,7 +129,7 @@ JOIN
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from qurban_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from qurban_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE
@@ -143,7 +144,7 @@ JOIN
 		    WHEN total_angsuran is null THEN 0
 		    ELSE total_angsuran
 		END)AS total_angsuran from (select sum(besaran)as total_angsuran 
-		from ldks_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester)totalAngsuran)ta
+		from ldks_list where concat(tahun, lpad(bulan, 2, '0')) between @startSemester and @endSemester and kelas = @kelas)totalAngsuran)ta
 		JOIN                                          
 		(select * from(select (
 		    CASE

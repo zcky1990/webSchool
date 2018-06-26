@@ -38,13 +38,7 @@ public class MainController extends BaseController {
 		}else {
 			response.put(STATUS, STATUS_FAILED );
 		}
-		/*JSONArray users = new JSONArray();
-		JSONObject asd = new JSONObject();
-		asd.put("username","admin");
-		asd.put("level","1");
-		users.put(asd);
-		response.put(STATUS, STATUS_SUCCESS );
-		response.put(DETAILS, users);*/
+	
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	
@@ -109,12 +103,14 @@ public class MainController extends BaseController {
 		SiswaUtil util = new SiswaUtil();
 		JSONArray result = util.getSiswaList();
 		JSONObject response = new JSONObject();
+		JSONArray config = util.getConfig();
 		if(result.length()> 0 ) {
 			response.put(STATUS, STATUS_SUCCESS );
 			response.put(LIST_SISWA, result);
 		}else {
 			response.put(STATUS, STATUS_FAILED );
 		}
+		response.put("filter", config);
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	
@@ -122,7 +118,13 @@ public class MainController extends BaseController {
 	public @ResponseBody ResponseEntity<String> getAngsuran(@RequestBody Details detal,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		JSONObject response = new JSONObject();
 		PaymentDetailUtility util = new PaymentDetailUtility();
-		response = util.getDetails(detal);
+		JSONArray result = util.getDetails(detal);
+		if(result.length()> 0 ) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, result);
+		}else {
+			response.put(STATUS, STATUS_FAILED );
+		}
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	

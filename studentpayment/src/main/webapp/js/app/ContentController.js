@@ -10,6 +10,7 @@ Clazz.com.dewantara.ContentController = Clazz.extend(Clazz.WidgetWithTemplate, {
 	dewantaraPageMain : null,
 	dewantaraAdminPageMain : null,
 	listSiswa:[],
+	filter :[],
 
 	initialize: function(config){
 		this.spinnerController = config.spinnerController;
@@ -17,6 +18,7 @@ Clazz.com.dewantara.ContentController = Clazz.extend(Clazz.WidgetWithTemplate, {
 		this.requestAPI = config.requestAPI;
 		this.onSuccessSignOut = new signals.Signal();
 		this.listSiswa = [];
+		this.filter = [];
 
 		Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 			switch (operator) {
@@ -74,10 +76,12 @@ Clazz.com.dewantara.ContentController = Clazz.extend(Clazz.WidgetWithTemplate, {
 		var self = this;
 		self.spinnerController.showSpinner();
 		var username = self.cookiesController.getCookie('username');
+		var filter = self.filter;
 		self.requestAPI.request('/getSiswaList',"GET","username="+username , function(response){
 			self.spinnerController.hideSpinner();
 			if(response.status == 'success'){
 				self.dewantaraPageMain.setData(response.ListSiswa);
+				self.dewantaraPageMain.setFilter(response.filter);
 				self.dewantaraPageMain.render();
 			}
 		},function(errorResponse){

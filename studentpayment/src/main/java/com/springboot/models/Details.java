@@ -2,25 +2,32 @@ package com.springboot.models;
 
 public class Details {
 	private String nisn;
-	private Integer startMonth;
-	private Integer endMonth;
+	private String startMonth;
+	private String endMonth;
+	private String kelas;
+	
+	public String getKelas() {
+		return kelas;
+	}
+	public void setKelas(String kelas) {
+		this.kelas = kelas;
+	}
 	public String getNisn() {
 		return nisn;
 	}
 	public void setNisn(String nisn) {
 		this.nisn = nisn;
 	}
-	public Integer getStartMonth() {
+	public String getStartMonth() {
 		return startMonth;
 	}
-	public void setStartMonth(Integer startMonth) {
+	public void setStartMonth(String startMonth) {
 		this.startMonth = startMonth;
 	}
-	public Integer getEndMonth() {
+	public String getEndMonth() {
 		return endMonth;
 	}
-	public void setEndMonth(Integer endMonth) {
+	public void setEndMonth(String endMonth) {
 		this.endMonth = endMonth;
 	}
-	
 }

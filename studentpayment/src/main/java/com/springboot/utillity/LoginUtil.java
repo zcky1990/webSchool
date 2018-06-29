@@ -16,7 +16,8 @@ public class LoginUtil {
 		String username = login.getUsername();
 		String password = login.getPassword();
 		
-		String query = "select username,level from users where username='"+username+"' and password = '"+password+"'";
+		String query = "SELECT ud.id,u.username,u.access_level FROM users u INNER JOIN user_detail ud"
+				+ "	ON u.user_id = ud.id where u.username = '"+username+"' and u.password = '"+password+"'";
 		try {
 			result = util.readDataDB(query);
 		} catch (SQLException e) {

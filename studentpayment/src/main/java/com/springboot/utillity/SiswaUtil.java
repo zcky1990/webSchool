@@ -13,7 +13,9 @@ public class SiswaUtil {
 	
 	public JSONArray getConfig() {
 		JSONArray result = new JSONArray();
-		String query ="SELECT description ,CONCAT(start_year, lpad(start_month, 2, '0')) As start_semester,CONCAT(end_year, lpad(end_month, 2, '0')) As end_semester FROM tahun_ajaran";
+		String query ="SELECT deskripsi, DATE_FORMAT(start_semester,'%Y%m') as start_semester, "  
+				+" DATE_FORMAT(end_semester,'%Y%m') as end_semester" 
+				+" FROM tahun_ajaran ORDER BY end_semester desc";
 		try {
 			result = util.readDataDB(query);
 		} catch (SQLException e) {
@@ -68,15 +70,7 @@ public class SiswaUtil {
 	
 	public JSONArray getSiswaList()  {
 		JSONArray result = new JSONArray();
-		String query= "SELECT s.nisn, CONCAT(s.firstname, ' ', s.lastname) AS nama,"
-				+ "CONCAT(kl.description, ' ', km.description) as nama_kelas,"
-				+ "kl.description as kelas,"
-				+ "k.kelas_id "
-				+ "FROM siswa s "
-				+ "INNER JOIN kelas_mapping km ON s.nisn = km.nisn "
-				+ "INNER JOIN kelas_list kl ON kl.id = km.kelas_id "
-				+ "INNER JOIN kelas k on k.nisn = s.nisn and k.kelas_id=kl.id "
-				+ "WHERE s.is_active = true and k.is_active = 1";
+		String query= "SELECT * FROM siswa s WHERE s.is_active = true";
 		try {
 			result = util.readDataDB(query);
 		} catch (SQLException e) {

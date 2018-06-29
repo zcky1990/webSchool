@@ -13,201 +13,66 @@ public class PaymentDetailUtility {
 	DatabaseUtillity util = new DatabaseUtillity();
 		
 	public JSONArray getDetails(Details details) throws JSONException {
-		JSONObject result = new JSONObject();
+		JSONArray result = new JSONArray();
 		String nisn = details.getNisn();
 		String startSemester = details.getStartMonth();
 		String endSemester =  details.getEndMonth();
 		String kelas = details.getKelas();
-		String queryDetails = "select * FROM \n" + 
-				"		(select (total_angsuran-total_bayar) as spp  from (select \n" + 
-				"			(CASE\n" + 
-				"			    WHEN total_angsuran is null THEN 0\n" + 
-				"			    ELSE total_angsuran\n" + 
-				"			END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"			from spp_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"			JOIN                                          \n" + 
-				"			(select * from(select (\n" + 
-				"			    CASE\n" + 
-				"			    	WHEN total_bayar is null THEN 0\n" + 
-				"			    	ELSE total_bayar\n" + 
-				"				END)AS total_bayar \n" + 
-				"			    FROM(SELECT sum(bayar)as total_bayar FROM spp \n" + 
-				"			         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_spp\n" + 
-				" JOIN\n" + 
-				"		(select (total_angsuran-total_bayar) as mpls  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from mpls_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+" )totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM mpls \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_mpls \n" + 
-				" JOIN\n" + 
-				"		(select (total_angsuran-total_bayar) as seragam  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from seragam_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM seragam \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_seragam\n" + 
-				" JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as praktek  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from praktek_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM praktek \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_praktek\n" + 
-				" JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as lks  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from lks_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM lks \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_lks	\n" + 
-				" JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as lks_produktif  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from lks_produktif_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM lks_produktif \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_lks_produktif\n" + 
-				" JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as kegiatan  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from kegiatan_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM kegiatan \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_kegiatan		\n" + 
-				" JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as kartu_pelajar  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from kartu_pelajar_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM kartu_pelajar \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_kartu_pelajar  \n" + 
-				"JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as qurban  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from qurban_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM qurban \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_qurban      	 \n" + 
-				"JOIN\n" + 
-				"	(select (total_angsuran-total_bayar) as ldks  from (select \n" + 
-				"		(CASE\n" + 
-				"		    WHEN total_angsuran is null THEN 0\n" + 
-				"		    ELSE total_angsuran\n" + 
-				"		END)AS total_angsuran from (select sum(besaran)as total_angsuran \n" + 
-				"		from ldks_list where concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and kelas = "+kelas+")totalAngsuran)ta\n" + 
-				"		JOIN                                          \n" + 
-				"		(select * from(select (\n" + 
-				"		    CASE\n" + 
-				"		    	WHEN total_bayar is null THEN 0\n" + 
-				"		    	ELSE total_bayar\n" + 
-				"			END)AS total_bayar \n" + 
-				"		    FROM(SELECT sum(bayar)as total_bayar FROM ldks \n" + 
-				"		         WHERE concat(tahun, lpad(bulan, 2, '0')) between "+startSemester+" and "+endSemester+" and nisn = "+nisn+")total_bayar_angsuran)asd)angs)angsuran_ldks   \n" + 
-				"JOIN\n" + 
-				"	(select (case when (gl.besaran - gdn.total_bayar) is null then 0\n" + 
-				"	       else (gl.besaran - gdn.total_bayar) end\n" + 
-				"	       ) as gedung  from (\n" + 
-				"		select gedung.gedung_list_id, \n" + 
-				"		(case when sum(gedung.bayar) is nULL then 0 \n" + 
-				"	    ELSE  sum(gedung.bayar)\n" + 
-				"	     END\n" + 
-				"	)as total_bayar from gedung where nisn = "+nisn+")gdn\n" + 
-				"	LEFT JOIN (SELECT gedung_list.id, (CASE \n" + 
-				"                                        WHEN gedung_list.besaran IS NULL THEN 0\n" + 
-				"                                       ELSE gedung_list.besaran END)AS besaran  FROM gedung_list) gl ON gl.id = gdn.gedung_list_id  )angsuran_gedung		";
+		String queryDetails = "SELECT type_desc, \n" + 
+				"       ( besaran - tot_byr ) AS sisa_angs \n" + 
+				"FROM   (SELECT type_desc, \n" + 
+				"               besaran, \n" + 
+				"               ( CASE \n" + 
+				"                   WHEN total_bayar IS NULL THEN 0 \n" + 
+				"                   ELSE total_bayar \n" + 
+				"                 end )AS tot_byr \n" + 
+				"        FROM   (SELECT tp.deskripsi   AS type_desc, \n" + 
+				"                       Sum(lp.besaran)AS besaran, \n" + 
+				"                       lp.kelas \n" + 
+				"                FROM   list_pembayaran lp \n" + 
+				"                       INNER JOIN tipe_pembayaran tp \n" + 
+				"                               ON lp.tipe_id = tp.id \n" + 
+				"                WHERE  Concat(lp.year, Lpad(lp.month, 2, '0')) BETWEEN \n" + 
+				"                       "+startSemester+" AND "+endSemester+" \n" + 
+				"                       AND kelas = "+kelas+" \n" + 
+				"                GROUP  BY tp.deskripsi)ta \n" + 
+				"               LEFT JOIN (SELECT nisn, \n" + 
+				"                                 nama, \n" + 
+				"                                 kelas, \n" + 
+				"                                 Sum(bayar)AS total_bayar, \n" + 
+				"                                 tipe_pembayaran \n" + 
+				"                          FROM   (SELECT s.nisn, \n" + 
+				"                                         s.nama, \n" + 
+				"                                         s.kelas, \n" + 
+				"                                         a.bayar, \n" + 
+				"                                         ( CASE \n" + 
+				"                                             WHEN a.modified_date IS NOT NULL \n" + 
+				"                                           THEN \n" + 
+				"                                             Date_format(a.modified_date, \n" + 
+				"                                             '%Y-%m-%d') \n" + 
+				"                                             ELSE Date_format(a.created_date, \n" + 
+				"                                                  '%Y-%m-%d') \n" + 
+				"                                           end )      AS tngl_bayar, \n" + 
+				"                                         lp.deskripsi, \n" + 
+				"                                         tp.deskripsi AS tipe_pembayaran \n" + 
+				"                                  FROM   siswa s \n" + 
+				"                                         INNER JOIN angsuran a \n" + 
+				"                                                 ON s.id = a.siswa_id \n" + 
+				"                                         INNER JOIN list_pembayaran lp \n" + 
+				"                                                 ON a.tipe_pembayaran_id = lp.id \n" + 
+				"                                         INNER JOIN tipe_pembayaran tp \n" + 
+				"                                                 ON lp.tipe_id = tp.id)tbl \n" + 
+				"                          WHERE  Date_format(tngl_bayar, '%Y%m') BETWEEN \n" + 
+				"                                 "+startSemester+" AND "+endSemester+"  \n" + 
+				"                                 AND kelas = "+kelas+" AND nisn ="+ nisn+" \n" + 
+				"                          GROUP  BY tipe_pembayaran)tb \n" + 
+				"                      ON ta.type_desc = tb.tipe_pembayaran)details_pembayaran ";
 		try {
-			JSONArray detail = util.readDataDB(queryDetails);
-			JSONObject angsuran = new JSONObject();
-			if(detail.length() > 0) {
-				angsuran = detail.getJSONObject(0);
-			}
-			result.put("angsuran", angsuran);
+			result = util.readDataDB(queryDetails);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String queryUjianDetails = "SELECT description, (angsuran_ujian.besaran - angsuran_ujian.bayar ) as sisa " + 
-				"from (SELECT * FROM ujian_list ul INNER JOIN (SELECT nisn,ujian_id,\n" + 
-				"	(case " + 
-				"     	when bayar is null then 0 " + 
-				"     	else bayar " + 
-				"    end) as bayar " + 
-				"FROM  ujian WHERE ujian.nisn = '"+ nisn +"' " + 
-				"and concat(ujian.tahun, lpad(ujian.bulan, 2, '0')) between "+ startSemester +" and "+ endSemester +")bu " + 
-				"ON ul.id = bu.ujian_id)angsuran_ujian";
-		try {
-			JSONArray detailUjian = util.readDataDB(queryUjianDetails);
-			result.put("ujian", detailUjian);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		JSONArray endResult= new JSONArray();
-		endResult.put(result);
-		return endResult;
+		return result;
 	}
 
 }

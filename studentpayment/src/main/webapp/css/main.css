@@ -425,3 +425,33 @@ tr.detail-table {
 .center-text{
 	text-align: center;
 }
+
+table.detail-angsuran-siswa {
+    margin: 0 auto;
+    text-align: center;
+}
+
+tr.detail-table {
+    background: black !important;
+    color: white;
+    font-size : 16px;
+}
+
+tr.column-name {
+    background: #f57d1f !important;
+    border-bottom: 1px solid black;
+}
+
+tr.angsuran-need {
+    border-bottom: 1px solid gray;
+}
+
+button.btn.btn-warning {
+    position: relative;
+    float: right;
+    margin-top: 30px;
+    right: 17%;
+    width: 11%;
+    background : #f57d1f !important;
+    color : white !important;
+}

@@ -1,6 +1,6 @@
 {
 	"config": {
-			"databaseName": "Dewantara",
+			"databaseName": "school",
 			"userName": "dewantara",
 			"password": "dewantara",
 			"ip": "192.168.64.2",

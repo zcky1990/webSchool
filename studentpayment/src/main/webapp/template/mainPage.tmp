@@ -26,8 +26,8 @@
 		 <tr>
                 <td>{{nisn}}</td>
                 <td>{{nama}}</td>
-                <td>{{nama_kelas}}</td>
-                <td>{{kelas_id}}</td>
+                <td>{{kelas}}</td>
+                <td>{{kelas}}</td>
                 <td><button id="btn-{{nisn}}-{{kelas_id}}" type="button" class="btn btn-link details-btn">Details</button></td>
             </tr>
 		{{/each}}

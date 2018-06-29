@@ -58,20 +58,27 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		self.requestAPI.request('/getAngsuran',"POST",JSON.stringify(model) , function(response){
 			self.spinnerController.hideSpinner();
 			if(response.status == 'success'){
-				self.showDetails(row,response.details );
+				self.showDetails(model, row,response.details);
 			}
 		},function(errorResponse){
 			self.spinnerController.hideSpinner();
 		});
 	},
 	
-	showDetails : function (row, detail){
-		var response = detail[0];
-		var ujian = response.ujian;
-		var angsuran = response.angsuran;
-		var string = this.getHeaderColumnChild(ujian);
-		string = string + this.getDetailTable(ujian, angsuran);
+	showDetails : function (model, row, detail){
+		var nisn =  model.nisn;
+		var kelas = model.kelas;
+		var startMonth = model.startMonth;
+		var endMonth = model.endMonth ;
+		var val = nisn +"-"+kelas+"-"+ startMonth+"-"+endMonth;
+		var string = this.getHeaderColumn(detail);
+		string = string + this.getDetailTable(detail);
+		string = string +"<button type='button' value = '"+val+"'class='btn btn-warning pay'>Bayar</button>";
 		row.child(string).show();
+		
+		$('.pay').on('click', function(){
+			console.log($(this).val());
+		});
 	},
 	
 	showPage : function(){
@@ -98,7 +105,7 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		for(var i = 0 ;i < dropdownFilter.length; i++){
 			var semester = dropdownFilter[i];
 			var start_end = semester.start_semester+"-"+semester.end_semester;
-			var desc = semester.description;
+			var desc = semester.deskripsi;
 			dropdown = dropdown+"<option value="+start_end+">"+desc+"</option>";
 		}
 		dropdown = dropdown +"</select>";
@@ -108,60 +115,30 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 	postRender : function(){
 		this.addFilterUI();
 	},
-	getHeaderColumnChild : function (ujian){
-		var header = '<table>'
+	getHeaderColumn : function (detail){
+		var header = '<table class="detail-angsuran-siswa">'
 				+'<tbody>'
 				+'<tr class="detail-table">'
 				+'<td class="detail_title" colspan="16">'+$( ".filter option:selected" ).text()+'</td>'
 				+'</tr>';
-		var colNameTopHeader = '<tr><td rowspan="2">Gedung</td><td rowspan="2">Mpls</td>'
-				+'<td rowspan="2">Seragam</td>'
-				+'<td class="center-text" colspan="7">Beban '+$( ".filter option:selected" ).text() +'</td>'
-				+'<td class="center-text" colspan="'+ujian.length+'">Ujian '+$( ".filter option:selected" ).text()+'</td>'
-				+'<td rowspan="2" style="center-text">SPP</td>'
-				+'<td rowspan="2" style="center-text">Angsuran '+$( ".filter option:selected" ).text()+'</td>'
-				+'</tr>';
-		var colNameBotHeader ='<tr>'
-				+'<td>Praktek</td>'     
-				+'<td>LKS</td>'
-				+'<td>LKS Produktif</td>'
-				+'<td>K-Pelajar</td>'
-				+'<td>Kegiatan</td>'
-				+'<td>Qurban</td>'
-				+'<td>LDKS</td>';
-		var colUjianHeader =''
-			for(var i = 0 ; i < ujian.length; i++){
-				var asd = ujian[i];
-				colUjianHeader = colUjianHeader+'<td>'+asd.description+'</td>';
+		
+		var colNameBotHeader ='<tr class="column-name">'
+			for(var i = 0; i< detail.length; i++){
+				colNameBotHeader = colNameBotHeader+'<td>'+(detail[i].type_desc).toUpperCase()+'</td>';
 			}
-			colUjianHeader = colUjianHeader+'</tr></tbody>';
-		return header+colNameTopHeader+colNameBotHeader+colUjianHeader;
+		colNameBotHeader =colNameBotHeader+'<td>Sisa Angsuran Harus Dibayar</td></tr></tbody>';
+		return header+colNameBotHeader;
 	},
 	
-	getDetailTable : function (ujian, angsuran){
+	getDetailTable : function (detail){
 		var total = 0;
-		for (var k in angsuran) {
-	        if (angsuran.hasOwnProperty(k)) {
-	        		total = total + angsuran[k];
-	        }
+		var data ='	<tbody><tr class="angsuran-need">'
+		for (var i = 0 ; i < detail.length; i ++) {
+	        var asd = detail[i];
+	        total = total + asd.sisa_angs;
+	        data = data	+'<td>'+asd.sisa_angs+'</td>'
 	    }
-		var data ='	<tbody><tr>'
-			+'<td>'+angsuran.gedung+'</td>'
-			+'<td>'+angsuran.mpls+'</td>'
-			+'<td>'+angsuran.seragam+'</td>'
-			+'<td>'+angsuran.praktek+'</td>'
-			+'<td>'+angsuran.lks+'</td>'
-			+'<td>'+angsuran.lks_produktif+'</td>'
-			+'<td>'+angsuran.kegiatan+'</td>'
-			+'<td>'+angsuran.kartu_pelajar+'</td>'
-			+'<td>'+angsuran.qurban+'</td>'
-			+'<td>'+angsuran.ldks+'</td>';
-		for(var i = 0 ; i < ujian.length; i++){
-			var asd = ujian[i];
-			data = data+'<td>'+asd.sisa+'</td>';
-			total = total+ asd.sisa;
-		}
-		data = data	+'<td>'+angsuran.spp+'</td><td>'+total+'</td></tr></tbody></table>';
+		data = data	+'<td>'+total+'</td>'+'</tr></tbody></table>';
 		return  data;
 	}
 });

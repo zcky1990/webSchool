@@ -6,6 +6,13 @@ public class Details {
 	private String endMonth;
 	private String kelas;
 	
+	Details (String nisn, String startMonth, String endMonth ,String kelas){
+		this.nisn = nisn;
+		this.startMonth = startMonth;
+		this.endMonth = endMonth;
+		this.kelas = kelas;
+	}
+	
 	public String getKelas() {
 		return kelas;
 	}

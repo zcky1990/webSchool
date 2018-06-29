@@ -1,0 +1,44 @@
+//get total yang harus dibayar per type kegiatan berdasarkan kelas dan semester
+
+SELECT tp.deskripsi as type_desc, sum(lp.besaran),lp.kelas FROM list_pembayaran lp INNER JOIN tipe_pembayaran tp
+ON lp.tipe_id = tp.id where concat(lp.year, lpad(lp.month, 2, '0')) between 201710 and 201806 and kelas = 1
+GROUP BY tp.deskripsi
+
+
+//get list pembayaran yg sudah dilakukan siswa
+select s.nisn,s.nama,s.kelas,a.bayar,
+(case WHEN a.modified_date is NOT NULL THEN DATE_FORMAT(a.modified_date, '%Y-%m-%d')
+ELSE DATE_FORMAT(a.created_date, '%Y-%m-%d') END)as tngl_bayar,lp.deskripsi, tp.deskripsi FROM siswa s INNER JOIN  angsuran a  ON s.id = a.siswa_id INNER JOIN list_pembayaran lp ON a.tipe_pembayaran_id=lp.id INNER JOIN tipe_pembayaran tp ON lp.tipe_id = tp.id 
+
+
+//get total jumlah yang sudah dibayar siswa
+select nisn,nama,kelas, sum(bayar)as total_bayar,tipe_pembayaran FROM (select s.nisn,s.nama,s.kelas,a.bayar,
+(case WHEN a.modified_date is NOT NULL THEN DATE_FORMAT(a.modified_date, '%Y-%m-%d')
+ELSE DATE_FORMAT(a.created_date, '%Y-%m-%d') END)as tngl_bayar,lp.deskripsi, tp.deskripsi as tipe_pembayaran FROM siswa s INNER JOIN  angsuran a  ON s.id = a.siswa_id INNER JOIN list_pembayaran lp ON a.tipe_pembayaran_id=lp.id INNER JOIN tipe_pembayaran tp ON lp.tipe_id = tp.id )tbl
+WHERE DATE_FORMAT(tngl_bayar,'%Y%m') BETWEEN 201710 AND 201806 AND kelas = 1
+GROUP BY tipe_pembayaran
+
+
+//get details sisa pembayaran2
+SELECT type_desc , (besaran - tot_byr) as sisa_angs FROM (
+	SELECT type_desc, besaran,(case when total_bayar is null then 0 else total_bayar end )as tot_byr
+	FROM (SELECT tp.deskripsi as type_desc, sum(lp.besaran)as besaran,lp.kelas FROM list_pembayaran lp INNER JOIN tipe_pembayaran tp
+	ON lp.tipe_id = tp.id where concat(lp.year, lpad(lp.month, 2, '0')) between 201710 and 201806 and kelas = 1 GROUP BY tp.deskripsi)ta 
+	LEFT JOIN (select nisn,nama,kelas, sum(bayar)as total_bayar,tipe_pembayaran FROM (select s.nisn,s.nama,s.kelas,a.bayar,
+	(case WHEN a.modified_date is NOT NULL THEN DATE_FORMAT(a.modified_date, '%Y-%m-%d')
+	ELSE DATE_FORMAT(a.created_date, '%Y-%m-%d') END)as tngl_bayar,lp.deskripsi, tp.deskripsi as tipe_pembayaran FROM siswa s INNER JOIN  angsuran a  ON s.id = a.siswa_id INNER JOIN list_pembayaran lp ON a.tipe_pembayaran_id=lp.id INNER JOIN tipe_pembayaran tp ON lp.tipe_id = tp.id )tbl
+	WHERE DATE_FORMAT(tngl_bayar,'%Y%m') BETWEEN 201710 AND 201806 AND kelas = 1
+	GROUP BY tipe_pembayaran)tb
+	ON ta.type_desc = tb.tipe_pembayaran)details_pembayaran
+
+//detail bayar dan belum bayar
+SELECT id, type_desc, angs_deskripsi,besaran, (case when bayar is null then 0 else bayar end)as bayar  FROM 
+	(SELECT lp.id, tp.deskripsi as type_desc, lp.deskripsi as angs_deskripsi, lp.besaran,lp.kelas FROM 		list_pembayaran lp INNER JOIN tipe_pembayaran tp
+		ON lp.tipe_id = tp.id where concat(lp.year, lpad(lp.month, 2, '0')) between 201710 and 201806 		and kelas = 1)angs 
+LEFT JOIN 
+    (select a.tipe_pembayaran_id, s.nisn,s.nama,s.kelas,a.bayar,
+    (case WHEN a.modified_date is NOT NULL THEN DATE_FORMAT(a.modified_date, '%Y-%m-%d')
+    ELSE DATE_FORMAT(a.created_date, '%Y-%m-%d') END)as tngl_bayar,lp.deskripsi FROM siswa s INNER JOIN  angsuran a  ON s.id = a.siswa_id INNER JOIN list_pembayaran lp ON a.tipe_pembayaran_id=lp.id INNER JOIN tipe_pembayaran tp ON lp.tipe_id = tp.id  )byr
+ON angs.id = byr.tipe_pembayaran_id
+
+

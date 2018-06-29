@@ -118,7 +118,7 @@ public class MainController extends BaseController {
 	public @ResponseBody ResponseEntity<String> getAngsuran(@RequestBody Details detal,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
 		JSONObject response = new JSONObject();
 		PaymentDetailUtility util = new PaymentDetailUtility();
-		JSONArray result = util.getDetails(detal);
+		JSONObject result = util.getDetails(detal);
 		if(result.length()> 0 ) {
 			response.put(STATUS, STATUS_SUCCESS );
 			response.put(DETAILS, result);

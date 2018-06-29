@@ -12,8 +12,8 @@ import com.springboot.util.DatabaseUtillity;
 public class PaymentDetailUtility {
 	DatabaseUtillity util = new DatabaseUtillity();
 		
-	public JSONArray getDetails(Details details) throws JSONException {
-		JSONArray result = new JSONArray();
+	public JSONObject getDetails(Details details) throws JSONException {
+		JSONObject detail = new JSONObject();
 		String nisn = details.getNisn();
 		String startSemester = details.getStartMonth();
 		String endSemester =  details.getEndMonth();
@@ -68,11 +68,33 @@ public class PaymentDetailUtility {
 				"                          GROUP  BY tipe_pembayaran)tb \n" + 
 				"                      ON ta.type_desc = tb.tipe_pembayaran)details_pembayaran ";
 		try {
-			result = util.readDataDB(queryDetails);
+			JSONArray summary = util.readDataDB(queryDetails);
+			detail.put("summary", summary);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return result;
+		String subQuery = "SELECT id, type_desc, angs_deskripsi,besaran, (case when bayar is null then 0 else bayar end)as bayar  FROM \n" + 
+				"	(SELECT lp.id, tp.deskripsi as type_desc, lp.deskripsi as angs_deskripsi, lp.besaran,lp.kelas FROM 		list_pembayaran lp INNER JOIN tipe_pembayaran tp\n" + 
+				"		ON lp.tipe_id = tp.id where concat(lp.year, lpad(lp.month, 2, '0')) between "+startSemester+" and "+endSemester+" 		and kelas = "+kelas+")angs \n" + 
+				"LEFT JOIN \n" + 
+				"    (Select * FROM (select a.tipe_pembayaran_id, s.nisn,s.nama,s.kelas,a.bayar,\n" + 
+				"    (case WHEN a.modified_date is NOT NULL THEN DATE_FORMAT(a.modified_date, '%Y-%m-%d')\n" + 
+				"    ELSE DATE_FORMAT(a.created_date, '%Y-%m-%d') END)as tngl_bayar,lp.deskripsi FROM siswa s INNER JOIN  angsuran a  ON s.id = a.siswa_id INNER JOIN list_pembayaran lp ON a.tipe_pembayaran_id=lp.id INNER JOIN tipe_pembayaran tp ON lp.tipe_id = tp.id )sis \n" + 
+				" WHERE Date_format(tngl_bayar, '%Y%m') BETWEEN "+startSemester+" AND "+endSemester+" AND kelas = "+kelas+" \n" + 
+				" AND nisn = '"+ nisn+"')byr\n" + 
+				"ON angs.id = byr.tipe_pembayaran_id\n" + 
+				"\n" + 
+				"";
+		try {
+			JSONArray detailsSiswa = util.readDataDB(subQuery);
+			detail.put("detail", detailsSiswa);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return detail;
 	}
+	
+	
 
 }

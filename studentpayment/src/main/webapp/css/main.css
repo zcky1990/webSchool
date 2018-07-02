@@ -446,6 +446,10 @@ tr.angsuran-need {
     border-bottom: 1px solid gray;
 }
 
+.title-name {
+    margin-bottom: 10px;
+}
+
 button.btn.btn-warning {
     position: relative;
     float: right;
@@ -454,4 +458,74 @@ button.btn.btn-warning {
     width: 11%;
     background : #f57d1f !important;
     color : white !important;
+}
+
+.bayar-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+}
+.bayar-form {
+    width: 100%;
+}
+.details-form{
+	 width: 100%;
+}
+.bayar-content {
+    width: 70%;
+    top: 10%;
+    background: white;
+    position: relative;
+    margin: 0 auto;
+    min-height: 650px;
+}
+.pembayaran-list-title{
+	margin-left: 15px;
+	font-size: 20px;
+}
+.container-title-list {
+	width:100%;
+    border-bottom: 4px solid #f57d1f;
+    margin-top: 20px;
+}
+.title-list.row {
+    margin-top: 5px;
+    font-size: 18px;
+    border-bottom: 1px solid;
+    margin-bottom: 20px;
+}
+.bayar-list {
+    margin-top: 9px;
+}
+.btn-payment {
+    margin-left: 20px;
+}
+.list-bayar-container {
+    overflow-y: auto;
+    height: 300px;
+    overflow-x: hiddem;
+}
+
+.content-main-dialog {
+    padding-top: 35px;
+}
+
+button#bayar-angsuran {
+    margin-left: 16px;
+}
+.orange-btn {
+	background : #f57d1f !important;
+	border: 1px solid #f57d1f !important;
+}
+
+.tab-page {
+    font-size: 18px;
+    margin-right: 15px;
+    padding-left: 20px;
+}
+
+table.detail-table {
+	margin-top: 10px;
+    margin-bottom: 20px;
 }

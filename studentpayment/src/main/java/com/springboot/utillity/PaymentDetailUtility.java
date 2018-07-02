@@ -1,6 +1,7 @@
 package com.springboot.utillity;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +88,27 @@ public class PaymentDetailUtility {
 				"";
 		try {
 			JSONArray detailsSiswa = util.readDataDB(subQuery);
-			detail.put("detail", detailsSiswa);
+			JSONObject detailsPayment = new JSONObject();
+			if(detailsSiswa.length() > 0) {
+				 HashMap<String, JSONArray> hmap = new HashMap<String, JSONArray>();
+				 for(int i = 0 ; i< detailsSiswa.length(); i++) {
+					 JSONObject obj = detailsSiswa.getJSONObject(i);
+					 String key = obj.getString("type_desc");
+					 if(hmap.containsKey(key)) {
+						 JSONArray detailType = hmap.get(key);
+						 detailType.put(obj);
+					 }else {
+						 JSONArray detailType = new JSONArray();
+						 detailType.put(obj);
+						 hmap.put(key, detailType);
+					 }
+				 }
+				 
+				 for (String key : hmap.keySet()) {
+					 detailsPayment.put(key, hmap.get(key));
+					}
+			}
+			detail.put("detail", detailsPayment);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,6 +116,20 @@ public class PaymentDetailUtility {
 		return detail;
 	}
 	
-	
-
+	public JSONArray getTypeAngsuran (Details details) {
+		JSONArray result = new JSONArray();
+		String startDate = details.getStartMonth();
+		String endDate = details.getEndMonth();
+		String kelas = details.getKelas();
+		
+		String query = "SELECT id,deskripsi,besaran FROM `list_pembayaran` WHERE Concat(year, Lpad(month, 2, '0')) "
+				+ "BETWEEN "+startDate+" AND "+endDate+"  AND kelas = "+kelas+"";
+		try {
+			result = util.readDataDB(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+	}
 }

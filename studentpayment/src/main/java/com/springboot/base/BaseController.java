@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 public class BaseController {
 	protected static String STATUS = "status";
 	protected static String DETAILS = "details";
+	protected static String ANGSURAN_FILTER = "angsuran_filter";
 	protected static String STATUS_SUCCESS = "success";
 	protected static String STATUS_FAILED = "failed";
 	protected static String OK = "200";

@@ -8,12 +8,14 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 	cookiesController: null,
 	requestAPI: null, 
 	filter : [],
+	siswaResponse : {},
 
 	initialize: function(config){
 		this.spinnerController = config.spinnerController;
 		this.cookiesController = config.cookiesController;
 		this.requestAPI = config.requestAPI;
 		this.fitter = [];
+		this.siswaResponse = {};
 	},
 	
 	bindUI : function (){
@@ -58,6 +60,9 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		self.requestAPI.request('/getAngsuran',"POST",JSON.stringify(model) , function(response){
 			self.spinnerController.hideSpinner();
 			if(response.status == 'success'){
+				model.detail = response.details.detail;
+				model.filter = response.angsuran_filter;
+				self.siswaResponse = model;
 				self.showDetails(model, row,response.details);
 			}
 		},function(errorResponse){
@@ -65,19 +70,23 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		});
 	},
 	
-	showDetails : function (model, row, detail){
-		var nisn =  model.nisn;
-		var kelas = model.kelas;
-		var startMonth = model.startMonth;
-		var endMonth = model.endMonth ;
-		var val = nisn +"-"+kelas+"-"+ startMonth+"-"+endMonth;
-		var string = this.getHeaderColumn(detail);
-		string = string + this.getDetailTable(detail);
+	showDetails : function (model, row, details){
+		var self = this;
+		var val =  model.nisn +"-"+model.kela+"-"+ model.startMonth+"-"+model.endMonth;
+		var summary = details.summary;
+		var string = this.getHeaderColumn(summary);
+		string = string + this.getDetailTable(summary);
 		string = string +"<button type='button' value = '"+val+"'class='btn btn-warning pay'>Bayar</button>";
 		row.child(string).show();
 		
 		$('.pay').on('click', function(){
-			console.log($(this).val());
+			var details = new Clazz.com.dewantara.Details({
+				'spinnerController' : self.spinnerController,
+				'cookiesController' : self.cookiesController,
+				'requestAPI' : self.requestAPI,
+				'response' : self.siswaResponse
+			});
+			details.render();
 		});
 	},
 	

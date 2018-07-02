@@ -28,9 +28,9 @@
 			</div>
 			<div class="right-nav col-sm-10 full-width">
 			<overview:main-body-container>
-			</<overview:main-body-container>
+			</overview:main-body-container>
 			<overview:main-body-admin-container>
-			</<overview:main-body-admin-container>
+			</overview:main-body-admin-container>
 			</div>
 			</div>
 			</div>

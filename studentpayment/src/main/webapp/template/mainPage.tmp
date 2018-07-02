@@ -1,7 +1,8 @@
 <div class="home-page">
+
 <div class="title-container">
 	<div class="row title">
-		<div class="col-sm-4">Daftar Siswa</div>
+		<div class="col-sm-4 title-name">Daftar Siswa</div>
   		<div class="col-sm-8">
   			<div class="filter">
 			
@@ -42,11 +43,6 @@
         </tbody>
     
     </table>
-	
-	
-	
-	
-	
 	</div>
 </div>
 </div>

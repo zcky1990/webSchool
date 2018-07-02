@@ -1,0 +1,101 @@
+<div class="dialog-bayar-container">
+	<div class="dialog-spinner bayar-container">
+		<div class="spinner-background">
+		</div>
+		<div class="bayar-content">
+			<ul class="nav nav-tabs">
+			  <li class="active-tab bayar-menu"><a class="tab-page" href="#">Bayar</a></li>
+			  <li class="detail-menu"><a class="tab-page" href="#">Detail</a></li>
+			</ul>
+			<div class="content-main-dialog container">
+				<div class="row">
+			    	<div class="bayar-form">
+				  <div class="row">
+				    <label class="col-sm-2 col-form-label">NISN</label>
+				    <label class="col-form-label">:</label>
+				    <div class="col-sm-9">
+				      <input type="text" readonly class="form-control-plaintext" id="nisn" value="{{nisn}}">
+				    </div>
+				  </div>
+				  <div class="row">
+				    <label class="col-sm-2 col-form-label">Nama</label>
+				    <label class="col-form-label">:</label>
+				    <div class="col-sm-9">
+				      <input type="text" readonly class="form-control-plaintext" id="nama" value="{{nama}}">
+				    </div>
+				  </div>
+				  <div class="row">
+				    <label class="col-sm-2 col-form-label">Kelas</label>
+				    <label class="col-form-label">:</label>
+				    <div class="col-sm-9">
+				      <input type="text" readonly class="form-control-plaintext" id="kelas" value="{{kelas}}">
+				    </div>
+				  </div>
+				  <div class="row">
+				    <label  class="col-sm-3 col-form-label" >Add Tipe Pembayaran</label>
+				     <select class="col-sm-4 custom-select my-1 mr-sm-2" id="tipe-pembayaran">
+					    <option selected>Choose...</option>
+					     {{#each filter}}
+						 <option value="{{id}}">{{deskripsi}}</option>
+						{{/each}}
+					  </select>
+					  <button id="addTipePembayaran" type="button" class="col-sm-2 btn btn-primary orange-btn">add</button>
+				  </div>
+				  
+				  <div class="row">
+				  <div class="container-title-list">
+				  	<h1 class="pembayaran-list-title"> </h1>
+				  </div>
+				  </div>
+				  <div class="list-bayar-container">
+				  	<div class='title-list row'>
+					<label class='col-sm-3' >Tipe Pembayaran</label>
+					<label class='col-sm-3' >Jumlah Harus Dibayar</label>
+				  	<label class='col-sm-6' >Jumlah Pembayaran</label>
+					</div>
+				  </div>
+			    	</div>
+			    	 	<div class="details-form" style="display:none;">
+			    	 	<div class="container-title-list">
+				  		<h1 class="pembayaran-list-title"> </h1>
+				  	</div>
+				  	<div class="detail-table-container">
+				  	{{#each detail}}
+				  		<table class="detail-table table table-bordered">
+				  		 <tr class="title-column-table-title">		
+				  		 	<td class="detail-column-table">Jenis Kegiatan</td>				
+						    {{#each this}}
+						    		<td class="title-column-table-title">{{angs_deskripsi}}</td>
+						    {{/each}}
+						 </tr>
+						  <tr class="title-column-table-title">		
+						  <td class="title-column-table-title">Jumlah Pembayaran</td>						
+						    {{#each this}}
+						    		<td class="title-column-table-title">{{besaran}}</td>
+						    {{/each}}
+						 </tr>
+						  <tr class="title-column-table-title">	
+						  <td class="title-column-table-title">Pembayaran</td>							
+						    {{#each this}}
+						    		<td class="title-column-table-title">{{bayar}}</td>
+						    {{/each}}
+						 </tr>
+						 </table>
+					{{/each}}
+				  	</di>
+			    	 	</div>
+		    </div>
+		    <div class="btn-dialog-container">
+				<div class="container">
+				    		<div class="row">
+				                <div class="col-sm-12">
+				    					<button id="bayar-angsuran" type="button" class="float-right btn btn-primary btn-lg orange-btn">Bayar</button>
+									<button id="batal-bayar-angsuran" type="button" class="float-right btn btn-primary btn-lg orange-btn">Batal</button>
+				                </div>
+				         </div>
+				</div>
+		</div>
+		</div>
+		
+	</div>
+</div>

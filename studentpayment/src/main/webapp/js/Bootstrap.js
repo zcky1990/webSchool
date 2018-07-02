@@ -55,6 +55,7 @@ $(document).ready(function(){
 				"app/ContentController",
 				"app/LoginPage",
 				"app/Dewantara",
+				"app/Details"
 				];
 			require(dashboardFiles,function() {
 				var spinner  = new Clazz.com.dewantara.Spinner();

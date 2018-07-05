@@ -479,6 +479,7 @@ button.btn.btn-warning {
     position: relative;
     margin: 0 auto;
     min-height: 650px;
+    padding: 20px;
 }
 .pembayaran-list-title{
 	margin-left: 15px;

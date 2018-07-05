@@ -7,12 +7,25 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 	spinnerController: null,
 	cookiesController: null,
 	requestAPI: null, 
+	row : null,
 
 	initialize: function(config){
 		this.spinnerController = config.spinnerController;
 		this.cookiesController = config.cookiesController;
 		this.requestAPI = config.requestAPI;
 		this.data = config.response;
+		this.row = config.row;
+	},
+	
+	closeRow : function (){
+		var tr = $('#list-siswa > tbody > tr');
+		for(var i = 0 ; i < tr.length; i++){
+			if($(tr[i]).hasClass('show-details')){
+				$(tr[i]).removeClass('show-details');
+				break;
+			}
+		}
+		this.row.child().hide();
 	},
 
 	getBayarModel : function(){
@@ -46,10 +59,9 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 		self.spinnerController.showSpinner();
 		self.requestAPI.request('/bayarAngsuran',"POST",JSON.stringify(model) , function(response){
 			self.spinnerController.hideSpinner();
-			console.log(response);
 			if(response.status == 'success'){
-				
 				$('.dialog-bayar-container').css('display','none');
+				self.closeRow();
 			}
 		},function(errorResponse){
 			self.spinnerController.hideSpinner();

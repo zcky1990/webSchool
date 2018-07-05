@@ -31,24 +31,28 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 		 });
 		
 		$('.details-btn').on('click',function(){
+			var openedTr = $('#list-siswa > tbody > tr');
+			for(var i = 0 ; i < openedTr.length; i++){
+				if($(openedTr[i]).hasClass('show-details')){
+					$(openedTr[i]).removeClass('show-details');
+					 var openedrow = table.row( openedTr[i]);
+					 openedrow.child().hide();
+					 break;
+				}
+			}
 			 var tr = $(this).closest('tr');
 			 var row = table.row( tr );
-			 if(tr.hasClass('show-details')){
-				 tr.removeClass('show-details');
-				 row.child().hide();
-			 }else {
-				 tr.addClass('show-details');
-				 var nisn = row.data()[0];
-				 var kelasId = row.data()[3];
-				 var model = {};
-				 var date = $( ".filter option:selected" ).val();
-				 var values=date.split('-');
-				 model.nisn = nisn;
-				 model.kelas = kelasId;
-				 model.startMonth = values[0];
-				 model.endMonth = values[1];
-				 self.getPaymentDetails(model, row);
-			 }
+			 tr.addClass('show-details');
+			 var nisn = row.data()[0];
+			 var kelasId = row.data()[3];
+			 var model = {};
+			 var date = $( ".filter option:selected" ).val();
+			 var values=date.split('-');
+			 model.nisn = nisn;
+			 model.kelas = kelasId;
+			 model.startMonth = values[0];
+			 model.endMonth = values[1];
+			 self.getPaymentDetails(model, row);
 		});
 	},
 	
@@ -84,7 +88,8 @@ Clazz.com.dewantara.Dewantara = Clazz.extend(Clazz.WidgetWithTemplate, {
 				'spinnerController' : self.spinnerController,
 				'cookiesController' : self.cookiesController,
 				'requestAPI' : self.requestAPI,
-				'response' : self.siswaResponse
+				'response' : self.siswaResponse,
+				'row' : row
 			});
 			details.render();
 		});

@@ -1,5 +1,7 @@
 package com.springboot.controller;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,12 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.base.BaseController;
+import com.springboot.models.Bayar;
 import com.springboot.models.Details;
 import com.springboot.models.Login;
 import com.springboot.models.Siswa;
+import com.springboot.models.SiswaBayar;
 import com.springboot.models.Users;
 import com.springboot.utillity.LoginUtil;
 import com.springboot.utillity.PaymentDetailUtility;
+import com.springboot.utillity.PembayaranUtility;
 import com.springboot.utillity.SiswaUtil;
 import com.springboot.utillity.UserUtil;
 
@@ -127,6 +132,29 @@ public class MainController extends BaseController {
 		}else {
 			response.put(STATUS, STATUS_FAILED );
 		}
+		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/bayarAngsuran", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> bayarAngsuran(@RequestBody SiswaBayar siswaBayar,@RequestHeader MultiValueMap<String,String> headers) throws JSONException{
+		JSONObject response = new JSONObject();
+		System.out.println(siswaBayar.getKelas());
+		System.out.println(siswaBayar.getNisn());
+		ArrayList<Bayar> asd = siswaBayar.getPembayaran();
+		for(int i = 0 ; i < asd.size(); i++) {
+			Bayar aa = asd.get(i);
+			System.out.println(aa.getBayar());
+			System.out.println(aa.getId());
+		}
+		PembayaranUtility util = new PembayaranUtility();
+		/*if(result.length()> 0 ) {
+			response.put(STATUS, STATUS_SUCCESS );
+			response.put(DETAILS, result);
+			response.put(ANGSURAN_FILTER, filter);
+		}else {
+			response.put(STATUS, STATUS_FAILED );
+		}
+		*/
 		return new ResponseEntity<String>(response.toString(), getResponseHeader(), HttpStatus.OK);
 	}
 	

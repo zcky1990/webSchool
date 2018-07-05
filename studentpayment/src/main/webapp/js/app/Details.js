@@ -8,19 +8,58 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 	cookiesController: null,
 	requestAPI: null, 
 
-
 	initialize: function(config){
 		this.spinnerController = config.spinnerController;
 		this.cookiesController = config.cookiesController;
 		this.requestAPI = config.requestAPI;
 		this.data = config.response;
-		console.log(this.data );
 	},
-	
+
+	getBayarModel : function(){
+		var model= {};
+		var username = this.cookiesController.getCookie('username');
+		model.nisn = this.data.nisn;
+		model.kelas = this.data.kelas;
+		model.pembayaran = this.getPembayaranList();
+		model.username = username;
+		return model;
+	},
+
+	getPembayaranList(){
+		var pembayaran = [];
+		var lists = $('.bayar-list');
+		if(lists.length > 0){
+			for(var i = 0 ; i < lists.length; i++){
+				var model = {};
+				var list = $(lists)[i];
+				var id = list.id;
+				model.id = id.replace("-payment", "");
+				model.bayar = $($(lists)[i]).children()[2].value;
+				pembayaran.push(model);
+			}
+		}
+		return pembayaran;
+	},
+
+	payment: function (model){
+		var self = this;
+		self.spinnerController.showSpinner();
+		self.requestAPI.request('/bayarAngsuran',"POST",JSON.stringify(model) , function(response){
+			self.spinnerController.hideSpinner();
+			console.log(response);
+			if(response.status == 'success'){
+				
+				$('.dialog-bayar-container').css('display','none');
+			}
+		},function(errorResponse){
+			self.spinnerController.hideSpinner();
+		});
+	},
+
 	getIdFilterPembayaran : function(){
 		return $('#tipe-pembayaran option:selected').val();
 	},
-	
+
 	getSelectedFilterData : function(selctId){
 		var filter = this.data.filter;
 		var selectedFilter = {};
@@ -34,7 +73,7 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 		}
 		return selectedFilter;
 	},
-	
+
 	addPembayaran : function(selectedFilter){
 		var besaran = selectedFilter.besaran;
 		var id = selectedFilter.id;
@@ -45,17 +84,17 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 			$(this).parent().remove();
 		})
 	},
-	
+
 	getListTemplate : function(id, besaran, deskripsi){
 		var html = "<div id='"+id+"-payment' class='bayar-list row'>" +
-				"<label id="+deskripsi+" class='col-sm-3' >"+deskripsi+"</label>" +
-				"<label id="+deskripsi+" class='col-sm-3' >Rp. "+besaran+"</label>" +
-				"<input type='text' class='form-control col-sm-3' id='jumlahBayar'>"+
-				"<button type='button' id='"+id+"-payment-btn' class='btn-payment col-sm-1 btn btn-primary orange-btn'>Remove</button>" +
-				"</div>"
+		"<label id="+deskripsi+" class='col-sm-3' >"+deskripsi+"</label>" +
+		"<label id="+deskripsi+" class='col-sm-3' >Rp. "+besaran+"</label>" +
+		"<input type='text' class='form-control col-sm-3' id='jumlahBayar'>"+
+		"<button type='button' id='"+id+"-payment-btn' class='btn-payment col-sm-1 btn btn-primary orange-btn'>Remove</button>" +
+		"</div>"
 		return html;
 	},
-	
+
 	bindUI : function (){
 		var self = this;
 		$('#addTipePembayaran').on('click',function(){
@@ -63,15 +102,16 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 			var selectedFilter = self.getSelectedFilterData(val);
 			self.addPembayaran(selectedFilter);
 		});
-		
+
 		$('#batal-bayar-angsuran').on('click',function(){
 			$('.dialog-bayar-container').css('display','none');
 		});
-		
+
 		$('#bayar-angsuran').on('click',function(){
-			console.log('bayar');
+			var model = self.getBayarModel();
+			self.payment(model);
 		});
-		
+
 		$('.bayar-menu').on('click',function(){
 			$('.details-form').css('display','none');
 			$('.detail-menu').removeClass('active-tab');
@@ -79,7 +119,7 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 			$('.bayar-form').css('display','block');
 			$('#bayar-angsuran').css('display','block');
 		});
-		
+
 		$('.detail-menu').on('click',function(){
 			$('.bayar-form').css('display','none');
 			$('.bayar-menu').removeClass('active-tab');
@@ -88,11 +128,11 @@ Clazz.com.dewantara.Details = Clazz.extend(Clazz.WidgetWithTemplate, {
 			$('#bayar-angsuran').css('display','none');
 		});
 	},
-		
+
 	setData: function(listSiswa){
 
 	},
-	
+
 	postRender : function(){
 
 	}
